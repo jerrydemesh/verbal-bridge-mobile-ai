@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Bluetooth, MessageSquare } from "lucide-react";
 
 const Index = () => {
   return (
@@ -11,7 +12,17 @@ const Index = () => {
         
         <div className="space-y-4">
           <Link to="/bluetooth">
-            <Button className="w-full">Connect Bluetooth Device</Button>
+            <Button className="w-full flex items-center">
+              <Bluetooth className="mr-2 h-4 w-4" />
+              Connect Bluetooth Device
+            </Button>
+          </Link>
+          
+          <Link to="/translation">
+            <Button variant="outline" className="w-full flex items-center">
+              <MessageSquare className="mr-2 h-4 w-4" />
+              Skip Setup & Continue to App
+            </Button>
           </Link>
         </div>
       </div>
