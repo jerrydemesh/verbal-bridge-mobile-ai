@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Layout } from "@/components/Layout";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,6 @@ const profileFormSchema = z.object({
 
 const ProfilePage = () => {
   const { toast } = useToast();
-  const [isEditing, setIsEditing] = useState(false);
   
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
@@ -43,7 +42,6 @@ const ProfilePage = () => {
       title: "Profile updated",
       description: "Your profile information has been updated.",
     });
-    setIsEditing(false);
   };
 
   return (
@@ -63,19 +61,47 @@ const ProfilePage = () => {
         </div>
         
         <div className="mb-4">
-          {!isEditing ? (
-            <Button onClick={() => setIsEditing(true)}>Edit Profile</Button>
-          ) : (
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="email" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <div className="pt-2">
+                <h3 className="text-lg font-medium mb-2">Change Password</h3>
+                
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="currentPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>Current Password</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} type="password" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -84,80 +110,38 @@ const ProfilePage = () => {
                 
                 <FormField
                   control={form.control}
-                  name="email"
+                  name="newPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>New Password</FormLabel>
                       <FormControl>
-                        <Input {...field} type="email" />
+                        <Input {...field} type="password" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
                 
-                <div className="pt-2">
-                  <h3 className="text-lg font-medium mb-2">Change Password</h3>
-                  
-                  <FormField
-                    control={form.control}
-                    name="currentPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Current Password</FormLabel>
-                        <FormControl>
-                          <Input {...field} type="password" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="newPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>New Password</FormLabel>
-                        <FormControl>
-                          <Input {...field} type="password" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Confirm New Password</FormLabel>
-                        <FormControl>
-                          <Input {...field} type="password" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                
-                <div className="flex gap-2 pt-2">
-                  <Button type="submit">Save Changes</Button>
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={() => {
-                      form.reset();
-                      setIsEditing(false);
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          )}
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm New Password</FormLabel>
+                      <FormControl>
+                        <Input {...field} type="password" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
+              <div className="flex gap-2 pt-2">
+                <Button type="submit">Save Changes</Button>
+              </div>
+            </form>
+          </Form>
         </div>
         
         <BottomMenuBar />

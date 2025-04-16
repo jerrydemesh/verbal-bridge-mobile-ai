@@ -1,17 +1,18 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { User, Settings, Mic, Folder } from 'lucide-react';
+import { User, Settings, Mic, Folder, Languages } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const BottomMenuBar = () => {
   const location = useLocation();
   
   const menuItems = [
-    { icon: User, label: 'Profile', path: '/profile' },
-    { icon: Settings, label: 'Settings', path: '/settings' },
+    { icon: Languages, label: 'Translate', path: '/translation' },
     { icon: Mic, label: 'Record', path: '/record' },
     { icon: Folder, label: 'Files', path: '/files' },
+    { icon: Settings, label: 'Settings', path: '/settings' },
+    { icon: User, label: 'Profile', path: '/profile' },
   ];
 
   return (
