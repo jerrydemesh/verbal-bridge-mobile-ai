@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { User, Settings, Mic, FileText } from 'lucide-react';
+import { User, Settings, Mic, Folder } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const BottomMenuBar = () => {
@@ -10,8 +10,8 @@ const BottomMenuBar = () => {
   const menuItems = [
     { icon: User, label: 'Profile', path: '/profile' },
     { icon: Settings, label: 'Settings', path: '/settings' },
-    { icon: Mic, label: 'Record Meeting', path: '/record-meeting' },
-    { icon: FileText, label: 'Audio Notes', path: '/audio-notes' },
+    { icon: Mic, label: 'Record', path: '/record' },
+    { icon: Folder, label: 'Files', path: '/files' },
   ];
 
   return (
