@@ -3,10 +3,39 @@ import React, { useState } from 'react';
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mic, Upload, StopCircle, Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import BottomMenuBar from "@/components/BottomMenuBar";
+import AudioCard, { AudioRecording } from '@/components/AudioCard';
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+const SAMPLE_RECORDINGS: AudioRecording[] = [
+  {
+    id: '1',
+    name: 'Team Meeting',
+    date: 'Apr 16, 2025',
+    duration: '13:45',
+    transcription: 'We discussed the new project timeline and assigned tasks. The design team will provide mockups by Friday, and development will start next Monday.',
+    summary: '• Project timeline discussed\n• Tasks assigned\n• Design mockups due Friday\n• Development starts Monday'
+  },
+  {
+    id: '2',
+    name: 'Interview with Dr. Smith',
+    date: 'Apr 14, 2025',
+    duration: '24:30',
+    transcription: 'Dr. Smith shared insights about the recent medical research and its applications in everyday healthcare. He emphasized the importance of preventive measures.',
+    summary: '• New medical research discussed\n• Applications in healthcare\n• Importance of prevention\n• Follow-up meeting scheduled'
+  },
+  {
+    id: '3',
+    name: 'Language Practice - Spanish',
+    date: 'Apr 10, 2025',
+    duration: '08:20',
+    transcription: 'Practice session for basic Spanish conversation including greetings, introductions, and ordering food at a restaurant.',
+    summary: '• Basic greeting phrases\n• Self-introduction practice\n• Restaurant vocabulary\n• Common expressions'
+  }
+];
 
 const RecordPage = () => {
   const { toast } = useToast();
@@ -14,6 +43,7 @@ const RecordPage = () => {
   const [recordingName, setRecordingName] = useState("");
   const [recordingDuration, setRecordingDuration] = useState(0);
   const [recordingInterval, setRecordingIntervalId] = useState<number | null>(null);
+  const [recordings, setRecordings] = useState<AudioRecording[]>(SAMPLE_RECORDINGS);
 
   const handleStartRecording = () => {
     setIsRecording(true);
@@ -55,6 +85,17 @@ const RecordPage = () => {
       return;
     }
     
+    const newRecording: AudioRecording = {
+      id: Date.now().toString(),
+      name: recordingName,
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      duration: formatTime(recordingDuration),
+      transcription: "This is an automatically generated transcription of your recording.",
+      summary: "• Key point 1\n• Key point 2\n• Key point 3"
+    };
+    
+    setRecordings([newRecording, ...recordings]);
+    
     toast({
       title: "Recording saved",
       description: `Your recording "${recordingName}" has been saved.`,
@@ -68,6 +109,17 @@ const RecordPage = () => {
     const file = event.target.files?.[0];
     
     if (file) {
+      const newRecording: AudioRecording = {
+        id: Date.now().toString(),
+        name: file.name.replace(/\.[^/.]+$/, ""),
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        duration: "00:00", // Duration would be determined from the actual file
+        transcription: "This is an automatically generated transcription of your imported audio.",
+        summary: "• Key point 1\n• Key point 2\n• Key point 3"
+      };
+      
+      setRecordings([newRecording, ...recordings]);
+      
       toast({
         title: "File imported",
         description: `"${file.name}" has been imported.`,
@@ -83,7 +135,7 @@ const RecordPage = () => {
 
   return (
     <Layout>
-      <div className="container max-w-md mx-auto p-4 flex flex-col h-screen pb-16">
+      <div className="container max-w-md mx-auto p-4 flex flex-col h-full pb-16">
         <h1 className="text-2xl font-bold mb-4">Record</h1>
         
         <div className="grid gap-4 mb-4">
@@ -160,6 +212,14 @@ const RecordPage = () => {
             </CardContent>
           </Card>
         </div>
+        
+        <h2 className="text-xl font-semibold mb-3">Recent Recordings</h2>
+        
+        <ScrollArea className="flex-1 pr-2">
+          {recordings.map((recording) => (
+            <AudioCard key={recording.id} recording={recording} />
+          ))}
+        </ScrollArea>
         
         <BottomMenuBar />
       </div>

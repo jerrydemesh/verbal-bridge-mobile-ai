@@ -9,8 +9,8 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="bg-primary text-primary-foreground py-3 px-4 flex items-center justify-between">
+    <div className="flex flex-col h-screen bg-background">
+      <header className="bg-primary text-primary-foreground py-3 px-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
         <div className="flex items-center">
           <div className="bg-primary-foreground rounded-full p-1.5 mr-2">
             <Headphones className="h-5 w-5 text-primary" />
@@ -21,7 +21,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           <User className="h-6 w-6" />
         </Link>
       </header>
-      <main className="min-h-screen pt-2">
+      <main className="flex-1 overflow-auto">
         {children}
       </main>
     </div>
