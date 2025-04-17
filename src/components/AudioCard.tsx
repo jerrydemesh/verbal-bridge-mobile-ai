@@ -23,23 +23,23 @@ const AudioCard: React.FC<AudioCardProps> = ({ recording }) => {
 
   return (
     <Card className="mb-4">
-      <CardHeader className="pb-2">
-        <div className="flex justify-between items-start">
-          <div className="flex items-center">
-            <FileAudio className="h-5 w-5 mr-2 text-primary" />
-            <div>
-              <CardTitle className="text-base">{recording.name}</CardTitle>
-              <CardDescription>{recording.date} • {recording.duration}</CardDescription>
-            </div>
-          </div>
-          <CollapsibleTrigger asChild onClick={() => setIsOpen(!isOpen)}>
-            <Button variant="ghost" size="sm">
-              {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-            </Button>
-          </CollapsibleTrigger>
-        </div>
-      </CardHeader>
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+        <CardHeader className="pb-2">
+          <div className="flex justify-between items-start">
+            <div className="flex items-center">
+              <FileAudio className="h-5 w-5 mr-2 text-primary" />
+              <div>
+                <CardTitle className="text-base">{recording.name}</CardTitle>
+                <CardDescription>{recording.date} • {recording.duration}</CardDescription>
+              </div>
+            </div>
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="sm">
+                {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              </Button>
+            </CollapsibleTrigger>
+          </div>
+        </CardHeader>
         <CollapsibleContent>
           <CardContent className="pt-0">
             <div className="space-y-3">
