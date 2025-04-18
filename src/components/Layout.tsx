@@ -13,7 +13,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       <header className="bg-primary text-primary-foreground py-3 px-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
         <Link to="/" className="flex items-center hover:opacity-90">
           <img 
-            src="/lovable-uploads/4518a586-be59-48d0-800b-929c5dda2dae.png" 
+            src="/lovable-uploads/d64a1a11-fb7f-4453-90fc-c28bf946b14e.png" 
             alt="HearIt.AI Logo" 
             className="h-8"
           />
