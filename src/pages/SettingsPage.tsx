@@ -5,14 +5,26 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Volume2, Headphones, Bell, Globe, Sun, Moon, Phone, Bot } from "lucide-react";
+import { Volume2, Headphones, Bell, Globe, Sun, Moon, Phone, Bot, Bluetooth } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import BottomMenuBar from "@/components/BottomMenuBar";
+import { useBluetoothContext } from '@/contexts/BluetoothContext';
+import { Loader2 } from 'lucide-react';
 
 const SettingsPage = () => {
   const [apiKey, setApiKey] = useState('');
   const [selectedModel, setSelectedModel] = useState('gpt-3.5-turbo');
+  const { 
+    isBluetoothAvailable, 
+    isScanning, 
+    connectedDevice, 
+    discoveredDevices, 
+    startScan, 
+    stopScan, 
+    connectToDevice, 
+    disconnectDevice 
+  } = useBluetoothContext();
 
   const handleSaveApiKey = () => {
     if (apiKey) {
@@ -43,6 +55,7 @@ const SettingsPage = () => {
             <Card>
               <CardContent className="pt-6">
                 <div className="space-y-6">
+                  {/* OpenAI Settings Section */}
                   <div className="space-y-4 pb-4 border-b">
                     <div className="flex items-center space-x-2">
                       <Bot className="h-5 w-5 text-muted-foreground" />
@@ -83,6 +96,68 @@ const SettingsPage = () => {
                     )}
                   </div>
 
+                  {/* Bluetooth Section */}
+                  <div className="space-y-4 pb-4 border-b">
+                    <div className="flex items-center space-x-2">
+                      <Bluetooth className="h-5 w-5 text-muted-foreground" />
+                      <Label className="text-base font-medium">Bluetooth Device</Label>
+                    </div>
+                    <div className="space-y-4">
+                      {connectedDevice ? (
+                        <>
+                          <div className="flex items-center gap-2">
+                            <Bluetooth className="h-5 w-5 text-green-500" />
+                            <span>Connected to: {connectedDevice.name || connectedDevice.deviceId}</span>
+                          </div>
+                          <Button 
+                            onClick={disconnectDevice} 
+                            variant="destructive"
+                            className="w-full"
+                          >
+                            Disconnect
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button 
+                            onClick={isScanning ? stopScan : startScan} 
+                            disabled={!isBluetoothAvailable}
+                            className="w-full"
+                          >
+                            {isScanning ? (
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Stop Scanning
+                              </>
+                            ) : (
+                              <>
+                                <Bluetooth className="mr-2 h-4 w-4" />
+                                Scan for Devices
+                              </>
+                            )}
+                          </Button>
+                          
+                          {discoveredDevices.length > 0 && (
+                            <div className="space-y-2">
+                              {discoveredDevices.map((device) => (
+                                <Button
+                                  key={device.deviceId}
+                                  variant="outline"
+                                  className="w-full justify-start"
+                                  onClick={() => connectToDevice(device.deviceId)}
+                                >
+                                  <Bluetooth className="mr-2 h-4 w-4" />
+                                  {device.name || `Unknown Device (${device.deviceId.slice(-6)})`}
+                                </Button>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Other Settings */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Globe className="h-5 w-5 text-muted-foreground" />
