@@ -15,7 +15,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           <img 
             src="/lovable-uploads/d64a1a11-fb7f-4453-90fc-c28bf946b14e.png" 
             alt="HearIt.AI Logo" 
-            className="h-8"
+            className="h-16" 
           />
         </Link>
         <Link to="/profile" className="text-primary-foreground hover:bg-primary-foreground/20 rounded-full p-2">
@@ -28,3 +28,4 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     </div>
   );
 };
+
