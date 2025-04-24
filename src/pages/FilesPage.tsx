@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
@@ -9,7 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { FileAudio, FileText, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 import BottomMenuBar from "@/components/BottomMenuBar";
 
-// Mock data for files
 const mockFiles = [
   { id: 1, name: "Meeting with Team", type: "recording", date: "2023-04-15", size: "5.2 MB" },
   { id: 2, name: "Interview Notes", type: "recording", date: "2023-04-14", size: "3.7 MB" },
@@ -39,7 +37,6 @@ const FilesPage = () => {
     }
   };
 
-  // Filter and sort files based on current settings
   const getFilteredAndSortedFiles = () => {
     let filteredFiles = [...mockFiles];
     
@@ -66,7 +63,6 @@ const FilesPage = () => {
     return sortedFiles;
   };
 
-  // Group files by type
   const getGroupedFiles = () => {
     const files = getFilteredAndSortedFiles();
     const grouped: Record<string, typeof mockFiles> = {};
@@ -112,10 +108,7 @@ const FilesPage = () => {
               Name {renderSortIcon("name")}
             </TableHead>
             <TableHead className="cursor-pointer" onClick={() => handleSort("date")}>
-              Date {renderSortIcon("date")}
-            </TableHead>
-            <TableHead className="cursor-pointer" onClick={() => handleSort("size")}>
-              Size {renderSortIcon("size")}
+              Date & Time {renderSortIcon("date")}
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -124,8 +117,9 @@ const FilesPage = () => {
             <TableRow key={file.id}>
               <TableCell>{renderFileIcon(file.type)}</TableCell>
               <TableCell>{file.name}</TableCell>
-              <TableCell>{new Date(file.date).toLocaleDateString()}</TableCell>
-              <TableCell>{file.size}</TableCell>
+              <TableCell>
+                {new Date(file.date).toLocaleString()}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -144,8 +138,7 @@ const FilesPage = () => {
             <TableRow>
               <TableHead className="w-12"></TableHead>
               <TableHead>Name</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Size</TableHead>
+              <TableHead>Date & Time</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -153,8 +146,9 @@ const FilesPage = () => {
               <TableRow key={file.id}>
                 <TableCell>{renderFileIcon(file.type)}</TableCell>
                 <TableCell>{file.name}</TableCell>
-                <TableCell>{new Date(file.date).toLocaleDateString()}</TableCell>
-                <TableCell>{file.size}</TableCell>
+                <TableCell>
+                  {new Date(file.date).toLocaleString()}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

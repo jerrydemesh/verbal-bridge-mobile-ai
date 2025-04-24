@@ -45,20 +45,26 @@ const BluetoothPage = () => {
                   </Button>
                 </>
               ) : (
-                <Button 
-                  onClick={isScanning ? stopScan : startScan} 
-                  disabled={!isBluetoothAvailable}
-                  className="mb-4"
-                >
+                <div className="flex flex-col gap-2">
                   {isScanning ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Stop Scanning
-                    </>
+                    <div className="flex gap-2">
+                      <Button onClick={stopScan} variant="destructive" className="flex-1">
+                        Cancel Scanning
+                      </Button>
+                      <Button onClick={stopScan} variant="outline" className="flex-1">
+                        Skip
+                      </Button>
+                    </div>
                   ) : (
-                    "Start Scanning"
+                    <Button 
+                      onClick={startScan} 
+                      disabled={!isBluetoothAvailable}
+                      className="mb-4"
+                    >
+                      Start Scanning
+                    </Button>
                   )}
-                </Button>
+                </div>
               )}
             </div>
           </CardContent>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
@@ -43,7 +42,7 @@ const TranslationPage = () => {
   const [sourceLanguage, setSourceLanguage] = useState('english');
   const [targetLanguage, setTargetLanguage] = useState('spanish');
   const [isRecording, setIsRecording] = useState(false);
-  const [textToVoiceEnabled, setTextToVoiceEnabled] = useState(false);
+  const [textToVoiceEnabled, setTextToVoiceEnabled] = useState(true);
   const [savedConversations, setSavedConversations] = useState<SavedConversation[]>([]);
   const [isKeyboardMode, setIsKeyboardMode] = useState(false);
   const [textInput, setTextInput] = useState('');
