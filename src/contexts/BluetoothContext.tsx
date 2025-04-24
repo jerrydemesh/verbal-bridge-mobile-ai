@@ -43,6 +43,7 @@ export const BluetoothProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const lastConnectedDeviceIdRef = useRef<string | null>(null);
   const reconnectTimeoutRef = useRef<number | null>(null);
   const reconnectAttemptsRef = useRef(0);
+  const appStateListenerRef = useRef<any>(null);
 
   useEffect(() => {
     const initializeBluetooth = async () => {
@@ -64,25 +65,31 @@ export const BluetoothProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     initializeBluetooth();
 
     // Set up event listeners for app state changes
-    const appStateChangeListener = App.addListener('appStateChange', ({ isActive }) => {
-      console.log('App state changed. Is active:', isActive);
-      
-      if (isActive) {
-        console.log('App is active, checking for device reconnection');
-        handleAppResume();
-      } else {
-        console.log('App is inactive');
-        // The app is going to background, might need special handling
-        if (isBackgroundModeEnabled && connectedDevice) {
-          console.log('Background mode is enabled, maintaining connection');
-          // Additional code to maintain connection could go here
+    const setupAppStateListener = async () => {
+      appStateListenerRef.current = await App.addListener('appStateChange', ({ isActive }) => {
+        console.log('App state changed. Is active:', isActive);
+        
+        if (isActive) {
+          console.log('App is active, checking for device reconnection');
+          handleAppResume();
+        } else {
+          console.log('App is inactive');
+          // The app is going to background, might need special handling
+          if (isBackgroundModeEnabled && connectedDevice) {
+            console.log('Background mode is enabled, maintaining connection');
+            // Additional code to maintain connection could go here
+          }
         }
-      }
-    });
+      });
+    };
+    
+    setupAppStateListener();
 
     return () => {
       // Cleanup listeners
-      appStateChangeListener.remove();
+      if (appStateListenerRef.current) {
+        appStateListenerRef.current.remove();
+      }
       
       // Disconnect device if connected
       if (connectedDevice) {
