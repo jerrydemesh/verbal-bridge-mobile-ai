@@ -12,6 +12,15 @@ const config: CapacitorConfig = {
   plugins: {
     CapacitorHttp: {
       enabled: true
+    },
+    // Add specific configuration for BLE
+    BluetoothLe: {
+      displayStrings: {
+        scanning: "Searching for devices...",
+        cancel: "Cancel",
+        availableDevices: "Available devices",
+        noDeviceFound: "No devices found"
+      }
     }
   }
 };

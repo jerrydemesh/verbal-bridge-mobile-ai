@@ -14,7 +14,8 @@ const BluetoothSettings = () => {
     startScan, 
     stopScan, 
     connectToDevice,
-    disconnectDevice 
+    disconnectDevice,
+    isBackgroundModeEnabled
   } = useBluetoothContext();
 
   return (
@@ -23,6 +24,11 @@ const BluetoothSettings = () => {
         <Bluetooth className="h-5 w-5 text-muted-foreground" />
         <Label className="text-base font-medium">Bluetooth Device</Label>
       </div>
+      {isBackgroundModeEnabled && (
+        <div className="text-sm text-green-600 mb-2">
+          Background mode is enabled. Connection will be maintained when app is in background.
+        </div>
+      )}
       <div className="space-y-4">
         {connectedDevice ? (
           <>
