@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Languages, Mic, Folder, Settings } from 'lucide-react';
+import { Languages, Mic, Folder, Settings, Plane } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const BottomMenuBar = () => {
@@ -10,6 +10,7 @@ const BottomMenuBar = () => {
   const menuItems = [
     { icon: Languages, label: 'Translate', path: '/translation' },
     { icon: Mic, label: 'Record', path: '/record' },
+    { icon: Plane, label: 'Travel', path: '/travel' },
     { icon: Folder, label: 'Files', path: '/files' },
     { icon: Settings, label: 'Settings', path: '/settings' },
   ];

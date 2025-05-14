@@ -12,6 +12,7 @@ import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
 import RecordPage from "./pages/RecordPage";
 import FilesPage from "./pages/FilesPage";
+import TravelPage from "./pages/TravelPage";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/record" element={<RecordPage />} />
           <Route path="/files" element={<FilesPage />} />
+          <Route path="/travel" element={<TravelPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
